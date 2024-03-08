@@ -1,9 +1,20 @@
+'use client'
+
 import { NAV_LINKS } from "@/constants"
 import Image from "next/image"
 import Link from "next/link"
 import Button from "./Button"
+import { UserButton, SignIn, useUser } from "@clerk/nextjs"
+import { useRouter } from "next/navigation"
 
 const Navbar = () => {
+  const router = useRouter()
+  const { user } = useUser()
+
+  const handleClick = () => {
+    router.push('/sign-in')
+  }
+
   return (
     <nav className="flexBetween max-container padding-container relative z-30 py-5">
       <Link href="/">
@@ -18,13 +29,25 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <div className="lg:flexCenter hidden">
-        <Button 
+      <div className="">
+        
+        
+
+        {user ? (
+          <UserButton afterSignOutUrl="/"/>
+        ) : (
+          <button onClick={handleClick} className="flex items-center justify-center bg-green-90 px-8 py-4 text-white transition-all hover:bg-black rounded">
+            Login
+          </button>
+        )}
+      
+        {/* <Button 
           type="button"
           title="Login"
           icon="/user.svg"
           variant="btn_dark_green"
-        />
+        /> */}
+
       </div>
 
       <Image 
